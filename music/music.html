@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no,shrink-to-fit=no">
+    <title>h5添加音乐背景</title>
+    <script src="jquery.min.js"></script>
+    <style>
+        .music{
+            width: 30px;
+            height: 30px;
+            background: url("music.png") 0 0 no-repeat;
+            background-size: 30px;
+            -moz-animation:rotate 2s infinite linear;
+            -webkit-animation:rotate 2s infinite linear;
+            animation:rotate 2s infinite linear;
+        }
+        @-moz-keyframes rotate{
+            0%{
+                -moz-transform:rotate(0deg);
+            }
+            100%{
+                -moz-transform:rotate(360deg);
+            }
+        }
+        @-webkit-keyframes rotate{
+            0%{
+                -webkit-transform:rotate(0deg);
+            }
+            100%{
+                -webkit-transform:rotate(360deg);
+            }
+        }
+        @keyframes rotate{
+            0%{
+                transform:rotate(0deg);
+            }
+            100%{
+                transform:rotate(360deg);
+            }
+        }
+
+    </style>
+    <script type="text/javascript">
+       /* function open1(){
+            window.location.href="http://www.baidu.com";
+        }
+        function open2(){
+            window.open("http://www.baidu.com");
+        }*/
+        $(function () {
+            var play=1;
+            $('.music').click(function () {
+                if(play==0){
+                    $(this).css('animation','rotate 2s infinite linear');
+                    $("audio").get(0).play();
+                    play=1;
+                }else{
+                    play=0;
+                    $("audio").get(0).pause();
+                    $(this).css('animation','none');
+                }
+            })
+        })
+
+    </script>
+</head>
+<body>
+<!--<a href="javascript:void(0)" onclick="open1()">点击我，在当前页面打开指定的页面</a>
+</br></br></br>
+<a href="javascript:void(0)" onclick="open2()">点击我，会在新窗口中打开指定的页面</a>-->
+<a >音乐自动播放，点击暂停，icon停止旋转，再点击开始，icon开始旋转</a>
+<div class="music">
+    <!--loop="loop"循环播放-->
+    <audio autoplay="" loop="loop">
+        <source src="music_bg.mp3" type="audio/mpeg">
+    </audio>
+</div>
+</body>
