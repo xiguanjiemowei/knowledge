@@ -12,24 +12,71 @@
             background: #009fee;
             overflow: hidden;
         }
-        div img{
+        .pox img{
            /* transform: scale(1.2) translate(-4px,-4px);
             transition:all 0.35s ease;*/
             animation:move 2s ease infinite alternate;
+        }
+        .box img{
+            animation:rotate 2s infinite linear;
         }
        /* div img:hover{
             !*-webkit-*!animation:move 2s ease infinite alternate;
         }*/
         @keyframes move {
               0%{
-                  transform: scale(1) translate(0,0) rotate(0deg);
+                  transform:scale(1) translate(0,0) rotate(0deg);
                   background: red;
               }
               100% {
-                  transform: scale(1) translate(-6px, -6px) rotate(360deg);
+                  transform:scale(1)translate(0,0) rotate(360deg);
                   background: #009fee;
               }
           }
+        @keyframes move {
+            0%{
+                -moz-transform:scale(1) translate(0,0) rotate(0deg);
+                background: red;
+            }
+            100% {
+                -moz-transform:scale(1)translate(0,0) rotate(360deg);
+                background: #009fee;
+            }
+        }
+        @keyframes move {
+            0%{
+                -webkit-transform:scale(1) translate(0,0) rotate(0deg);
+                background: red;
+            }
+            100% {
+                -webkit-transform:scale(1)translate(0,0) rotate(360deg);
+                background: #009fee;
+            }
+        }
+        @keyframes rotate {
+            0%{
+                transform:rotate(0deg);
+            }
+            100%{
+                transform:rotate(360deg);
+            }
+        }
+        @-moz-keyframes rotate{
+            0%{
+                -moz-transform:rotate(0deg);
+            }
+            100%{
+                -moz-transform:rotate(360deg);
+            }
+        }
+        @-webkit-keyframes rotate{
+            0%{
+                -webkit-transform:rotate(0deg);
+            }
+            100%{
+                -webkit-transform:rotate(360deg);
+            }
+        }
         div p{
             text-align: center;
         }
@@ -64,9 +111,13 @@
 </head>
 <body>
 <p><strong>注意:</strong>@keyframes不兼容IE 9 and 以及更早版本的浏览器.</p>
-<div>
+<div class="pox">
     <img src="pic1.png" alt="">
-    <p>旋转动画</p>
+    <p>左右旋转动画</p>
+</div>
+<div class="box">
+    <img src="pic1.png" alt="">
+    <p>顺时针旋转动画</p>
 </div>
 <div class="block"></div>
 </body>
