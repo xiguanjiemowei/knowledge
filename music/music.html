@@ -50,6 +50,7 @@
         }*/
         $(function () {
             var play=1;
+            $("audio").get(0).play();
             $('.music').click(function () {
                 if(play==0){
                     $(this).css('animation','rotate 2s infinite linear');
@@ -72,7 +73,7 @@
 <a >音乐自动播放，点击暂停，icon停止旋转，再点击开始，icon开始旋转</a>
 <div class="music">
     <!--loop="loop"循环播放-->
-    <audio autoplay="" loop="loop">
+    <audio autoplay="autoplay" loop="loop">
         <source src="http://video.shaoziketang.com/xuexiguiji.mp3" type="audio/mpeg">
     </audio>
 </div>
