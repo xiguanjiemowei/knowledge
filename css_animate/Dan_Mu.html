@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>弹幕效果</title>
+    <style>
+        html,body {
+            background-image:url("images/208.jpg");
+            height:100%;
+        //文字的显示区域要设置好
+        }
+        div.mask {
+            position:fixed;
+            width:100%;
+            height:100%;
+            background-color:black;
+            opacity:0.5;
+            top:0px;
+            left:0px;
+        }
+        div.bottom {
+            width:100%;
+            height:77px;
+            background-color:#090909;
+            position:fixed;
+            bottom:0px;
+            left:0px;
+            text-align:center;
+            line-height:77px;
+        }
+        div.bottom input.content {
+            width:605px;
+            height:37px;
+            border:none;
+            border-radius:10px 0px 0px 10px;
+            font-size:16px;
+            font-family:'Microsoft Yahei';
+        }
+        div.bottom a.send {
+            background-color:green;
+            color:#fff;
+            display:inline-block;
+            width:150px;
+            height:40px;
+            line-height:37px;
+            text-align:center;
+            position:relative;
+            left:-10px;
+            top:-2px;
+            border-radius:0px 10px 10px 0px;
+            text-decoration:none;
+            font-family:'Microsoft Yahei';
+        }
+        div.mask a.button {
+            width:50px;
+            height:50px;
+            border-radius:30px;
+            background-color:#660000;
+            color:#fff;
+            position:fixed;
+            top:20px;
+            right:20px;
+            text-align:center;
+            line-height:50px;
+            font-size:30px;
+            font-family:'Microsoft Yahei';
+            border:1px solid #fff;
+            text-decoration:none;
+            cursor:pointer;
+        }
+        div.text {
+            color:#fff;
+            position:fixed;
+            right:0px;
+            font-size:20px;
+            white-space:nowrap;
+        }
+
+    </style>
+</head>
+<body>
+<a href="#">弹幕技术</a>
+<div class="mask">
+    <a href="#" class="button">X</a>
+</div>
+<!-- 底部发言框前端 -->
+<div class="bottom">
+    <input class="content">
+    <a href="###" class="send">发表言论</a>
+</div>
+<script src="https://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    $('a.send').click(function() {
+        //获取内容，创建新元素，并设置位置追加到目标元素中
+        var val = $('input.content').val();
+        var $content = $('<div class="text">' + val + '</div>');
+        var top = Math.random() * $(document.body).height() - 77;
+        $content.css('top', top);
+        $('div.mask').append($content);
+        //移动到最右侧，直接删除该元素
+        $content.animate({
+            right: $(document.body).width() + 100
+        }, 8000, function() {
+            $(this).remove();
+        });
+    });
+    $('div.button').click(function() {
+        $('div.mask').hide(2000);
+    });
+</script>
+</body>
+</html>

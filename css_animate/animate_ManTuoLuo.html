@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>曼陀罗动画</title>
+    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <style>
+        body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        canvas {
+            margin: auto;
+            width: 100vw;
+            height: 100vh;
+            background: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    </style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+<canvas id="scene"></canvas>
+<script>
+    console.clear();
+
+    var canvas = document.querySelector('#scene');
+    var ctx = canvas.getContext('2d');
+    var width, height;
+    var amount = 500;
+    var dots = [];
+    var dpi = window.devicePixelRatio > 1.5 ? 2 : 1;
+    var ww, wh;
+    function init () {
+        ww = window.innerWidth * dpi;
+        wh = window.innerHeight * dpi;
+
+        width =  ww < wh ? ww * 0.8 : wh * 0.8;
+        height = width;
+
+        canvas.width = ww;
+        canvas.height = wh;
+        canvas.style.width = ww + "px";
+        canvas.style.height = wh + "px";
+        if (dpi === 2) {
+            canvas.style.transform = 'translate(-50%, -50%) scale(0.5)';
+        }
+
+        dots = [];
+        for (var i = 0; i < amount; i++) {
+            dots.push(new Dot(i));
+        }
+    }
+
+    function Dot (i) {
+        var index = (i / amount);
+        var ratio = index * Math.PI * 40;
+        this.radius = (width / 2 - 60) * index;
+        this.index = index;
+        this.x = Math.sin(ratio) * this.radius + (ww / 2);
+        this.y = Math.cos(ratio) * this.radius + (wh / 2);
+        this.r = index * 50;
+        this.alpha = index;
+
+        TweenMax.to(this, 1, {
+            r: 1,
+            ease: Power1.easeOut,
+            yoyo: true,
+            repeat: -1,
+            delay: index * -3
+        });
+    }
+    ctx.lineWidth = dpi;
+    Dot.prototype.draw = function () {
+        ctx.beginPath();
+        ctx.globalAlpha = this.alpha;
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.stroke();
+    };
+    Dot.prototype.update = function () {
+        var ratio = this.index * Math.PI * (40 + mouse.x * 0.4);
+        this.x = Math.sin(ratio) * (this.radius + (mouse.y * 40)) + (ww / 2);
+        this.y = Math.cos(ratio) * (this.radius + (mouse.y * 40)) + (wh / 2);
+    };
+
+    function render () {
+        requestAnimationFrame(render);
+
+        ctx.clearRect(0, 0, ww, wh);
+        for (var i = 0; i < dots.length; i++) {
+            dots[i].update();
+            dots[i].draw();
+        }
+    }
+
+    var resizeTimeout;
+    window.addEventListener('resize', () => {
+        resizeTimeout = window.clearTimeout(resizeTimeout);
+    resizeTimeout = window.setTimeout(init, 500);
+    })
+    var mouse = {
+        x: 0,
+        y: 0
+    };
+    window.addEventListener('mousemove', (e) => {
+        TweenMax.to(mouse, 3, {
+        x: ((e.clientX - (window.innerWidth / 2)) / window.innerWidth) * 2,
+        y: (e.clientY / window.innerHeight),
+        ease: Power1.easeOut
+    });
+    });
+    window.addEventListener('touchmove', (e) => {
+        TweenMax.to(mouse, 3, {
+        x: ((e.touches[0].clientX - (window.innerWidth / 2)) / window.innerWidth) * 2,
+        y: (e.touches[0].clientY / window.innerHeight),
+        ease: Power1.easeOut
+    });
+    });
+    init();
+    requestAnimationFrame(render);
+</script>
+</body>
+</html>

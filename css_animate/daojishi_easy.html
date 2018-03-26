@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background-color:black;
+        }
+        #box1 {
+            color:#fff;
+            font-size:30px;
+            text-align:center;
+        }
+
+    </style>
+</head>
+<body>
+<!-- 放置定时器的盒子 -->
+<div id="box1"></div>
+
+<script src="https://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    $(function() {
+        setInterval(timer, 1000);
+
+        function timer() {
+            //设置结束的时间
+            var endtime = new Date("2019/1/1 00:00:00");
+
+            //设置当前时间
+            var now = new Date();
+
+            //得到结束与当前时间差 ： 毫秒
+            var t = endtime.getTime() - now.getTime();
+            if (t > 0) {
+                //得到剩余天数
+                var tian = Math.floor(t / 1000 / 60 / 60 / 24);
+
+                //得到还剩余的小时数（不满一天的小时）
+                var h = Math.floor(t / 1000 / 60 / 60 % 24);
+
+                //得到分钟数
+                var m = Math.floor(t / 1000 / 60 % 60);
+
+                //得到的秒数
+                var s = Math.floor(t / 1000 % 60);
+                var str = "距离2019年元旦节还有：" + tian + " 天 " + h + " 小时  " + m + " 分 " + s + " 秒 ";
+                $("#box1").html(str);
+            } else {
+                clearInterval(timer1); //这里可以添加倒计时结束后需要执行的事件
+                $("#box1").html("元旦已经结束");
+            }
+        }
+    });
+</script>
+</body>
+</html>

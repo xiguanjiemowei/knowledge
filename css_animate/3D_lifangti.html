@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>纯CSS立方体动画</title>
+    <style>
+        div ul li body {
+            margin:0;
+            padding:0;
+        }
+        .box {
+            width:500px;
+            height:500px;
+            margin:300px auto;
+            position:relative;
+            transform-style:preserve-3d;
+            transform:rotateX(45deg) rotateY(45deg);
+            animation:change 5s 0.3s linear infinite;
+        }
+        @keyframes change {
+            from {
+                transform:rotateX(0deg) rotateY(0deg) rotateZ(90deg);
+            }
+            to {
+                transform:rotateX(360deg)  rotateY(360deg) rotateZ(360deg);
+            }
+        }
+        li {
+             list-style:none;
+             width:500px;
+             height:500px;
+             text-align:center;
+             line-height:500px;
+             position:absolute;
+             top:0;
+             left:0;
+             opacity:0.6;
+         }
+        /*前*/
+        li:nth-child(1) {
+            background:red;
+            transform:translateZ(250px);
+        }
+        /*后*/
+        li:nth-child(2) {
+            background:blueviolet;
+            transform:translateZ(-250px);
+        }
+        /*左*/
+        li:nth-child(3) {
+            background:blue;
+            transform:translateX(-250px)  rotateY(90deg);
+        }
+        /*右*/
+        li:nth-child(4) {
+            background:green;
+            transform:translateX(250px) rotateY(90deg);
+        }
+        /*上*/
+        li:nth-child(5) {
+            background:yellow;
+            transform:translateY(-250px) rotateX(90deg);
+        }
+        /*下*/
+        li:nth-child(6) {
+            background:brown;
+            transform:translateY(250px) rotateX(90deg);
+        }
+
+    </style>
+</head>
+<body>
+<div class="box">
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+    </ul>
+</div>
+</body>
+</html>

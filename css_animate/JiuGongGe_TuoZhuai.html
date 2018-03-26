@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>九宫格拖拽效果</title>
+    <style>
+        * {
+            padding:0;
+            margin:0;
+        }
+        html,body {
+            width:100%;
+        }
+        #box {
+            margin:30px auto 0;
+            width:490px;
+            height:340px;
+            border:1px solid #000000;
+            position:relative;
+        }
+        div.item {
+            width:150px;
+            height:100px;
+            margin:5px;
+            float:left;
+            border:1px solid lightgray;
+            z-index:1;
+            cursor:move;
+        }
+        div.moving {
+            /*拖拽后的样式*/
+            border:1px dashed gray;
+            background:white;
+        }
+        div.draging {
+            /*图片拖拽出来后的样式*/
+            width:150px;
+            height:100px;
+            position:absolute;
+            z-index:500;
+        }
+
+    </style>
+</head>
+<body>
+<div id="box">
+    <div class="item"><img src="http://www.jq22.com/img/cs/500x500-1.png" width="150" height="100"></div>
+    <div class="item"><img src="http://www.jq22.com/img/cs/500x500-2.png" width="150" height="100"></div>
+    <div class="item"><img src="http://www.jq22.com/img/cs/500x500-3.png" width="150" height="100"></div>
+    <div class="item"><img src="http://www.jq22.com/img/cs/500x500-4.png" width="150" height="100"></div>
+    <div class="item"><img src="http://www.jq22.com/img/cs/500x500-5.png" width="150" height="100"></div>
+    <div class="item"><img src="http://www.jq22.com/img/cs/500x500-6.png" width="150" height="100"></div>
+    <div class="item"><img src="http://www.jq22.com/img/cs/500x500-7.png" width="150" height="100"></div>
+    <div class="item"><img src="http://www.jq22.com/img/cs/500x500-8.png" width="150" height="100"></div>
+    <div class="item"><img src="http://www.jq22.com/img/cs/500x500-9.png" width="150" height="100"></div>
+</div>
+<script src="https://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    var shortx = 0;
+    var shorty = 0;
+    var bstop = true;
+    /*$('body').on('mousedown',function(){
+        return false;
+    });*/
+    $('#box .item').on('mousedown', function(ev) {
+        if (bstop) {
+            bstop = false;
+            var $that = $(this);
+            var $clone = $(this).clone(true); //当前点击的元素克隆一份
+            //拖拽求短线
+            shortx = ev.pageX - $(this).offset().left;
+            shorty = ev.pageY - $(this).offset().top;
+
+            //当前的克隆的盒子设置定位
+            $clone.addClass('draging').css({
+                left: $(this).position().left,
+                top: $(this).position().top
+            });
+
+            //当前的盒子清空内容，同时添加对应的样式
+            $(this).addClass('moving').html('');
+
+            $('#box').append($clone); //追加
+
+            //拖拽
+            $(document).on('mousemove', function(ev) {
+                $clone.css({
+                    left: ev.pageX - shortx - $('#box').offset().left - 6,
+                    top: ev.pageY - shorty - $('#box').offset().top - 6
+                })
+            });
+
+            $(document).on('mouseup', function() {
+                $(document).off('mousemove');
+                $(document).off('mouseup');
+                //求最短的距离
+                var minindex = 0;
+                var minvalue = 3000; //假设是最小值
+                $('.item').not(':last').each(function(index, element) {
+                    //利用勾股定理求最短的距离
+                    var $distance = Math.sqrt(Math.pow(($clone.position().left - $(element).position().left), 2) + Math.pow(($clone.position().top - $(element).position().top), 2));
+                    if (minvalue > $distance) {
+                        minvalue = $distance;
+                        minindex = index;
+                    }
+                });
+
+                //console.log($('.item').eq(minindex).html());//距离最小的图片
+                //console.log($that.index(),minindex);
+
+                if (minindex == $that.index()) { //当前拖拽的图片等同于当前克隆的图片，没有交换
+                    $clone.animate($that.position(), 100, function() {
+                        $that.removeClass('moving').html($clone.html());
+                        $clone.remove(); //删除克隆的元素
+                        bstop = true;
+                    });
+                } else {
+                    var $minbox = $('.item').eq(minindex); //最小距离的盒子
+                    var $clone2 = $minbox.clone(true); //克隆
+                    $clone2.addClass('draging').css({
+                        left: $minbox.position().left,
+                        top: $minbox.position().top
+                    });
+                    $minbox.addClass('moving').html('');
+                    $('#box').append($clone2);
+
+                    $clone.animate($minbox.position(), 100, function() {
+                        $minbox.removeClass('moving').html($clone.html());
+                        $clone.remove();
+                        bstop = true;
+                    });
+                    $clone2.animate($that.position(), 100, function() {
+                        $that.removeClass('moving').html($clone2.html());
+                        $clone2.remove();
+                        bstop = true;
+                    });
+                }
+
+            });
+
+            return false;
+
+        }
+
+    });
+</script>
+</body>
+</html>

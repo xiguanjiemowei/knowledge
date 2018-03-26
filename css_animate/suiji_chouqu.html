@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery随机抽取</title>
+    <style>
+        * {
+            margin:0;
+            padding:0;
+        }
+        #context {
+            width:300px;
+            height:50px;
+            line-height:50px;
+            border:3px solid blue;
+            text-align:center;
+            position:relative;
+            z-index:10;
+        }
+        img {
+            position:absolute;
+            width:100%;
+            height:100%;
+        }
+        button {
+            position:relative;
+            z-index:10;
+            width:100px;
+            height:50px;
+            margin-top:10px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="context">
+
+</div>
+<button class="btn1">开始</button>
+<button class="btn2">停止</button>
+<script src="https://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    var $timer;
+    var $arr = ['你是谁', '我是谁', '她是谁', '他是谁', '又是谁', 'how是谁', '都是谁', '它是谁', '谁谁谁'];
+
+    function Random(x, y) {
+        return parseInt(Math.random() * (x - y + 1) + y);
+    }
+
+    function content() {
+        clearInterval($timer);
+        $timer = setInterval(function() {
+            $("#context").html($arr[Random(-1, 10)]);
+        }, 50);
+    }
+    $(".btn1").click(function() {
+        content();
+    });
+    $(".btn2").click(function() {
+        clearInterval($timer);
+    })
+</script>
+</body>
+</html>

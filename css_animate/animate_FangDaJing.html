@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>京东详情页缩略图方法样式</title>
+    <style>
+        * {
+            margin:0;
+            padding:0;
+            border:0;
+            list-style:none;
+        }
+        .b1 {
+            width:400px;
+            height:480px;
+            margin:0 auto;
+            margin-top:100px;
+            border:1px #7fa2a1 solid;
+            position:relative;
+        }
+        .b1 ul {
+            display:flex;
+        }
+        .b1 ul li {
+            margin:auto;
+        }
+        .b1 ul li img {
+            width:50px;
+            height:50px;
+            display:block;
+        }
+        .bian {
+            border:2px red solid;
+        }
+        .b2 img {
+            width:400px;
+            height:400px;
+            margin-bottom:15px;
+            position:relative;
+        }
+        .b2 .sm {
+            width:150px;
+            height:150px;
+            background-color:#000;
+            opacity:0.5;
+            filter:alpha(opacity=50);
+            position:absolute;
+            top:0;
+            left:0;
+            display:none;
+        }
+        .rig {
+            width:400px;
+            height:400px;
+            border:1px #7fa2a1 solid;
+            position:absolute;
+            top:0;
+            left:400px;
+            overflow:hidden;
+            display:none;
+        }
+        .rig img {
+            position:absolute;
+            left:0;
+            top:0;
+        }
+
+    </style>
+</head>
+<body>
+<div class="b1">
+    <div class="b2">
+        <img src="http://www.jq22.com/img/cs/500x500-1.png">
+        <div class="sm"></div>
+    </div>
+    <ul class="">
+        <li><img class="bian" src="http://www.jq22.com/img/cs/500x500-1.png"></li>
+        <li><img src="http://www.jq22.com/img/cs/500x500-2.png"></li>
+        <li><img src="http://www.jq22.com/img/cs/500x500-3.png"></li>
+        <li><img src="http://www.jq22.com/img/cs/500x500-4.png"></li>
+        <li><img src="http://www.jq22.com/img/cs/500x500-5.png"></li>
+        <li><img src="http://www.jq22.com/img/cs/500x500-6.png"></li>
+    </ul>
+    <div class="rig"><img src="http://www.jq22.com/img/cs/500x500-1.png"></div>
+</div>
+<div style="width: 1000px; height: 2000px; margin: 0 auto;"></div>
+<script>
+    var w1 = document.querySelector('.b1 ul'),
+        w2 = document.querySelector('.b2 img'),
+        w3 = document.querySelectorAll('.b1 ul li img'),
+        w4 = document.querySelector('.sm'),
+        w5 = document.querySelector('.b2'),
+        w6 = document.querySelector('.rig img'),
+        w7 = document.querySelector('.rig');
+
+    window.anload = (function() {
+
+        w6.style.width = 400 / 150 * 400 + 'px';
+        w6.style.height = 400 / 150 * 400 + 'px';
+    })();
+
+    w1.addEventListener('mousemove', function(e) {
+        //e.target.tagName
+        //console.log(e.target)
+        //console.log(e)
+        //console.log(e.target)
+        if (e.target.tagName == 'IMG') {
+            w2.src = e.target.src;
+            w6.src = e.target.src;
+            w3.forEach(function(t) {
+                t.className = ''
+            });
+            e.target.className = 'bian'
+        }
+
+    });
+
+    w5.addEventListener('mousemove', function(e) {
+        w4.style.display = 'block';
+        w7.style.display = 'block';
+        var x = e.clientX,
+            y = e.clientY,
+            x1 = w5.getBoundingClientRect().left,
+            y1 = w5.getBoundingClientRect().top,
+            xx = x - x1,
+            yy = y - y1;
+        if (xx <= 75) {
+            xx = 75
+        } else if (xx >= 325) {
+            xx = 325
+        }
+
+        if (yy <= 75) {
+            yy = 75
+        } else if (yy >= 325) {
+            yy = 325
+        }
+
+        w4.style.left = xx - 75 + 'px';
+        w4.style.top = yy - 75 + 'px';
+
+        w6.style.left = -(xx - 75) * (400 / 150) + 'px';
+        w6.style.top = -(yy - 75) * (400 / 150) + 'px';
+
+    });
+
+    w5.addEventListener('mouseout', function(e) {
+        w4.style.display = 'none';
+        w7.style.display = 'none';
+
+    })
+</script>
+</body>
+</html>
